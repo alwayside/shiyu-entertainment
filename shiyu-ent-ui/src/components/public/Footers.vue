@@ -22,7 +22,7 @@
     class="pa-0 footer-border-top d-flex justify-center"
     style="background: #ffffff!important;"
   >
-    <span class="caption"><strong>Copyright</strong> © 2019-2020 <strong>SHIYU-ENTERTAIMENT  {{$t('HBCMISTitle')}}</strong></span>
+    <span class="caption"><strong>Copyright</strong> © 2019-2020 <strong>SHIYU-ENTERTAIMENT  </strong></span>
   </v-footer>
 </template>
 <script>

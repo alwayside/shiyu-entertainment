@@ -17,102 +17,45 @@
 
 <template>
   <v-app-bar
-    color="#ffffff"
-    height="60px"
     tile
-    opacity="0.7"
-    class="appBarColor"
     fixed
     elevate-on-scroll
-
-  ><router-link to="/" @click.native="btnOn(4)"><span class="d-flex align-center">
+    shrink-on-scroll
+    prominent
+    src="https://picsum.photos/1920/1080?random"
+  >
+  <template v-slot:img="{ props }">
+        <v-img
+          v-bind="props"
+          gradient="to top right, rgba(25,25,112,.5), rgba(72,61,139,.8)"
+        ></v-img>
+      </template>
+  <router-link to="/" @click.native="btnOn(4)"><span class="d-flex align-center">
      <v-col width="60px"/>
-     <img src="" alt="hbc-medical" height="60">
+     <img src="../../assets/logo.png" alt="shiyu" height="60">
    </span></router-link>
     <v-spacer></v-spacer>
     <v-spacer></v-spacer>
+    <v-toolbar-title><div class="d-flex align-end" style="height:100%">
+        <v-btn text class="mr-5 title" color="#fff">Blog</v-btn>
+        <v-btn text class="mr-5 title" color="#fff">Gallary</v-btn>
+        <v-btn text class="mr-5 title" color="#fff">HighLight</v-btn>
+        </div></v-toolbar-title>
     <v-layout row wrap>
       <v-flex lg12>
-    <v-btn
-      elevation="0"
-      tile
-      :color="color[4]"
-      @click.native="btnOn(4)"
-      class="appBarBtn"
-      :height=appBarHeight
-      to="/"
-    >
-      {{$t('homePage')}}
-    </v-btn>
-    <v-btn
-      elevation="0"
-      tile
-      :color="color[0]"
-      @click.native="btnOn(0)"
-      class="appBarBtn"
-      :height=appBarHeight
-      to="/medicine"
-    >
-      {{ $t('medicine')}}
-    </v-btn>
-    <v-btn
-      elevation="0"
-      tile
-      :color="color[1]"
-      @click.native="btnOn(1)"
-      class="appBarBtn"
-      :height=appBarHeight
-      to="/purchase"
-    >
-      {{ $t('purchase')}}
-    </v-btn>
-    <v-btn
-      elevation="0"
-      tile
-      :color="color[2]"
-      @click.native="btnOn(2)"
-      class="appBarBtn"
-      :height=appBarHeight
-      to="/sell"
-    >
-      {{ $t('sell')}}
-    </v-btn>
-    <v-btn
-      elevation="0"
-      tile
-      :color="color[3]"
-      @click.native="btnOn(3)"
-      class="appBarBtn"
-      :height=appBarHeight
-      to="/store"
-    >
-      {{ $t('remain')}}
-    </v-btn>
-     <v-btn elevation="0"
-
-      tile
-      :color="color[5]"
-      @click.native="btnOn(5)"
-      class="appBarBtn"
-      :height=appBarHeight
-      to="/finance"
-          >
-            {{$t('finance')}}
-          </v-btn>
-
-    <!--language select button-->
-    <v-menu attach="" bottom left offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn text v-on="on" :height=appBarHeight class="languageBtn" @mouseenter="languageIcon = true" @mouseleave="languageIcon = false">
-          {{selectedLang}}<v-icon v-if="languageIcon">mdi-earth</v-icon>
-        </v-btn>
-      </template>
-      <v-list class="pa-0">
-        <v-list-item v-for="(item, index) in lang" @click="change(index)" :key="index">
-          <v-list-item-title>{{item}}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+        <!--language select button-->
+        <v-menu attach="" bottom left offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn text v-on="on" class="languageBtn" @mouseenter="languageIcon = true" @mouseleave="languageIcon = false">
+              {{selectedLang}}<v-icon v-if="languageIcon">mdi-earth</v-icon>
+            </v-btn>
+          </template>
+          <v-list class="pa-0">
+            <v-list-item v-for="(item, index) in lang" @click="change(index)" :key="index">
+              <v-list-item-title>{{item}}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-flex>
     </v-layout>
   </v-app-bar>
@@ -122,46 +65,13 @@
 export default {
   name: 'toolbar',
   data: () => ({
-    appBarHeight: '',
-    selectedLang: '',
-    helpMenu: [
-      'help',
-      'FAQ'
-    ],
     lang: [
       '简体中文',
       'English'
     ],
-    color: [],
     languageIcon: false
   }),
   methods: {
-    toHelp: function (index) {
-      if (index === 1) {
-        return '/FAQ'
-      }
-      return '/Help'
-    },
-    setAppBarHeight: function () {
-      this.appBarHeight = '60px'
-    },
-    setColor: function () {
-      this.color = [
-        'transparent',
-        'transparent',
-        'transparent',
-        'transparent',
-        'transparent',
-        'transparent'
-      ]
-    },
-    btnOn: function (btn) {
-      this.color = window.localStorage.getItem('btnColor').split(',')
-      // this.setColor()
-      // this.color[btn] = '#4caf50'
-      this.color.splice('0', 0)
-    },
-
     change: function (index) {
       this.selectedLang = this.lang[index]
       if (index === 0) {
@@ -176,24 +86,14 @@ export default {
   },
   watch: {
     $route () {
-      this.color = window.localStorage.getItem('btnColor').split(',')
-      this.color.splice('0', 0)
     }
   },
   computed: {
     area () {
       return this.$i18n.locale
-    },
-    getColor (index) {
-      // this.setColor()
-      this.btnOn(index)
-      return this.color[index]
     }
   },
   mounted: function () {
-    this.color = window.localStorage.getItem('btnColor').split(',')
-    this.color.splice('0', 0)
-    this.setAppBarHeight()
     if (this.$i18n.locale === 'zh') {
       this.selectedLang = '简体中文'
     } else {
