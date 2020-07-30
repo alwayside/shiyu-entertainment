@@ -33,11 +33,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/shiyuenter': {
+      '/api': {
         target: 'http://localhost:10700',  //目标接口域名
         changeOrigin: true,  //是否跨域
         pathRewrite: {
-          '^/shiyuenter': '/'   //重写接口
+          '^/api': '/'   //重写接口
         }
       },
     },

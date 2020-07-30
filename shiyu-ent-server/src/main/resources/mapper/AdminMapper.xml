@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiyu.mapper.AdminMapper">
+
+    <resultMap id="BaseResultMap" type="com.shiyu.entity.repository.AdminDo">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <result column="passWord" jdbcType="VARCHAR" property="passWord"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+    </resultMap>
+
+    <select id="selectId" resultType="com.shiyu.entity.repository.AdminDo" >
+        SELECT * FROM MIS_ADMIN MA WHERE MA.id = #{id}
+    </select>
+
+    <select id="selectAccount" resultType="com.shiyu.entity.repository.AdminDo" >
+        SELECT * FROM MIS_ADMIN MA WHERE MA.account = #{account}
+    </select>
+
+    <insert id="adminRegister" >
+        INSERT INTO MIS_ADMIN VALUES (default ,#{account},#{password},#{username})
+  	</insert>
+
+</mapper>

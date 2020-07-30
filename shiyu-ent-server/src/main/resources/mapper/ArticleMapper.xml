@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiyu.mapper.ArticleMapper">
+
+    <insert id="addArticle" >
+        INSERT INTO shiyu_article VALUES (default ,#{title},#{content},#{desc}, default)
+  	</insert>
+
+    <select id="selectByTitle" resultType="com.shiyu.entity.repository.ArticleDo">
+        SELECT * FROM shiyu_article sa
+        <if test="title != null and title != ''">
+            WHERE sa.title LIKE "%"#{title}"%"
+        </if>
+    </select>
+
+    <select id="selectById" resultType="com.shiyu.entity.repository.ArticleDo">
+        SELECT * FROM shiyu_article sa
+        WHERE sa.id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from shiyu_article sa where sa.id = #{id}
+    </delete>
+
+    <update id="updateArticle">
+        update shiyu_article
+        <set>
+            <if test="title != null">title=#{title},</if>
+            <if test="content != null">content=#{content}</if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

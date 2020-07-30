@@ -1,6 +1,6 @@
 <template>
 <div style="height:100vh;overflow:hidden"  >
-    <div style="height:60px" id />
+    <div style="height:60px"/>
     <v-carousel
         cycle
         height="100%"
