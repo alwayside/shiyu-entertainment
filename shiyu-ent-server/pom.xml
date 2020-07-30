@@ -11,9 +11,9 @@
     <groupId>com.shiyu</groupId>
     <artifactId>server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>server</name>
+    <name>shiyu-server</name>
     <description>shiyu-server</description>
-
+    <packaging>jar</packaging>
     <properties>
         <java.version>8</java.version>
     </properties>
@@ -76,11 +76,39 @@
 
     <build>
         <plugins>
+
             <plugin>
+
                 <groupId>org.springframework.boot</groupId>
+
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <configuration>
+
+                    <fork>true</fork>
+
+                    <mainClass>com.shiyu.ServerApplication</mainClass>
+
+                </configuration>
+
+                <executions>
+
+                    <execution>
+
+                        <goals>
+
+                            <goal>repackage</goal>
+
+                        </goals>
+
+                    </execution>
+
+                </executions>
+
             </plugin>
+
         </plugins>
+
     </build>
 
 </project>
