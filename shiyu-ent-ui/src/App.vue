@@ -41,8 +41,6 @@ export default {
   watch: {
     $route: {
       handler: function (val, oldVal) {
-        console.log(val)
-        console.log(val.path)
         if (val.path === '/' || val.path === '') {
           this.style = 'display:none!important'
         } else {

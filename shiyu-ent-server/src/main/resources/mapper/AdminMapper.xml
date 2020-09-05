@@ -10,15 +10,15 @@
     </resultMap>
 
     <select id="selectId" resultType="com.shiyu.entity.repository.AdminDo" >
-        SELECT * FROM MIS_ADMIN MA WHERE MA.id = #{id}
+        SELECT * FROM shiyu_admin MA WHERE MA.id = #{id}
     </select>
 
     <select id="selectAccount" resultType="com.shiyu.entity.repository.AdminDo" >
-        SELECT * FROM MIS_ADMIN MA WHERE MA.account = #{account}
+        SELECT * FROM shiyu_admin MA WHERE MA.account = #{account}
     </select>
 
     <insert id="adminRegister" >
-        INSERT INTO MIS_ADMIN VALUES (default ,#{account},#{password},#{username})
+        INSERT INTO shiyu_admin VALUES (default ,#{account},#{password},#{username})
   	</insert>
 
 </mapper>

@@ -14,6 +14,9 @@
       <v-btn block color="primary" @click="dialog = true" class="mt-2">
         提 交
       </v-btn>
+      <v-btn block color="primary" @click="delDialog = true" class="mt-2">
+        删除
+      </v-btn>
       <v-btn @click="$router.back(-1)" class="mt-2" block color='success' dark >
              返 回
       </v-btn>
@@ -54,6 +57,17 @@
       </v-card>
     </v-dialog>
 
+     <v-dialog v-model="delDialog" persistent max-width="400">
+      <v-card>
+        <v-card-title class="headline">确定删除？</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="delDialog = false">关闭</v-btn>
+          <v-btn color="green darken-1" text @click=deleteBlog() >确定</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
               <v-snackbar v-model="successAlter" color="success">
               success
               <v-btn dark text @click="successAlter = false">{{$t('close')}}</v-btn>
@@ -66,7 +80,7 @@
 </template>
 
 <script>
-import bg from './assert/bg2.jpg'
+import bg from './assets/bg2.jpg'
 
 // import dedent from 'dedent'
 import hljs from 'highlight.js'
@@ -87,6 +101,7 @@ export default {
     quillEditor
   },
   data: () => ({
+    delDialog: false,
     dialog: false,
     newTitle: 'the title',
     url: bg,
@@ -95,7 +110,7 @@ export default {
     errorAlter: false,
     backgroundDiv: {
 
-      backgroundImage: 'url(' + require('./assert/bg1.jpg') + ')',
+      backgroundImage: 'url(' + require('./assets/bg1.jpg') + ')',
 
       // backgroundRepeat: 'no-repeat',
       backgroundAttachment: 'fixed',
@@ -139,6 +154,21 @@ export default {
     },
     onEditorReady (editor) {
       console.log('editor ready!', editor)
+    },
+
+    deleteBlog () {
+      this.delDialog = false
+      let url = '/blog/delete/' + this.id
+      this.$axios.delete(url).then((res) => {
+        if (res.status === 200) {
+          this.$router.back(-1)
+        }
+      }).catch((err) => {
+        if (err) {
+          this.error = err.response.data ? err.response.data : 'error'
+          this.errorAlter = true
+        }
+      })
     },
 
     addNewBlog () {

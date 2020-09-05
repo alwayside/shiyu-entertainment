@@ -24,6 +24,10 @@ _axios.interceptors.request.use(
     } else {
       config.url += ('?' + param)
     }
+    if (localStorage.getItem('Authorization')) {
+      config.headers.Authorization = localStorage.getItem('Authorization')
+      config.headers.User = localStorage.getItem('User')
+    }
     return config
   },
   function (error) {

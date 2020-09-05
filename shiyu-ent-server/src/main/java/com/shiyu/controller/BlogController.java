@@ -2,6 +2,7 @@ package com.shiyu.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.shiyu.authority.AuthorityCenter;
 import com.shiyu.entity.repository.AdminDo;
 import com.shiyu.entity.repository.ArticleDo;
 import com.shiyu.service.BlogService;
@@ -22,9 +23,13 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private AuthorityCenter authorityCenter;
+
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody ArticleDo articleDo) {
+    public ResponseEntity<?> save(@RequestBody ArticleDo articleDo, HttpServletRequest request) throws Throwable {
+        authorityCenter.check(request);
         blogService.saveArticle(articleDo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -44,13 +49,17 @@ public class BlogController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id,
+                                    HttpServletRequest request) throws Throwable {
+        authorityCenter.check(request);
         blogService.deleteArticleById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("update")
-    public ResponseEntity<?> update(@RequestBody ArticleDo articleDo) {
+    public ResponseEntity<?> update(@RequestBody ArticleDo articleDo,
+                                    HttpServletRequest request) throws Throwable {
+        authorityCenter.check(request);
         blogService.updateArticle(articleDo);
         return new ResponseEntity<>(HttpStatus.OK);
     }

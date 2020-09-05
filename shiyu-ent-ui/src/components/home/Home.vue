@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import bg1 from './assert/BG1.png'
-import bg2 from './assert/BG2.jpg'
-import bg3 from './assert/BG3.jpg'
+import bg1 from './assets/BG1.png'
+import bg2 from './assets/BG2.jpg'
+import bg3 from './assets/BG3.jpg'
 
 export default {
   name: 'HomePage',

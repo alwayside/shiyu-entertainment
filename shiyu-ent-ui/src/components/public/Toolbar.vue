@@ -37,17 +37,27 @@
     <v-spacer></v-spacer>
     <v-spacer></v-spacer>
     <v-toolbar-title><div class="d-flex align-end" style="height:100%">
+        <v-btn text class="mr-5 title" color="#fff" to="/home">Home</v-btn>
         <v-btn text class="mr-5 title" color="#fff" to="/blog">Blog</v-btn>
-        <v-btn text class="mr-5 title" color="#fff">Gallary</v-btn>
+        <v-btn text class="mr-5 title" color="#fff">Gallery</v-btn>
         <v-btn text class="mr-5 title" color="#fff">HighLight</v-btn>
         </div></v-toolbar-title>
     <v-layout row wrap>
-      <v-flex lg12>
+       <div v-if="logged" class="d-flex align-center">
+          <span style="color:#fff"><strong>Hello ! {{ user }}</strong></span>
+      </div>
+      <div v-if="logged">
+          <v-btn @click="logout" class="ma-2" color="primary">登出</v-btn>
+      </div>
+      <div v-if="!logged">
+          <v-btn @click="login" class="ma-2" color="primary">登录</v-btn>
+      </div>
+      <v-flex lg12 style="display:none">
         <!--language select button-->
         <v-menu attach="" bottom left offset-y>
           <template v-slot:activator="{ on }">
             <v-btn text v-on="on" class="languageBtn" @mouseenter="languageIcon = true" @mouseleave="languageIcon = false">
-              {{selectedLang}}<v-icon v-if="languageIcon">mdi-earth</v-icon>
+              <span style="color:#fff">{{selectedLang}}<v-icon v-if="languageIcon">mdi-earth</v-icon></span>
             </v-btn>
           </template>
           <v-list class="pa-0">
@@ -66,12 +76,20 @@ export default {
   name: 'toolbar',
   data: () => ({
     lang: [
-      '简体中文',
-      'English'
+      '简体中文'
+      // 'English'
     ],
-    languageIcon: false
+    languageIcon: false,
+    logged: false,
+    user: window.localStorage.getItem('User') ? window.localStorage.getItem('User') : ''
   }),
   methods: {
+    login () {
+      this.$router.push('/login')
+    },
+    logout () {
+      this.$store.dispatch('logout', null)
+    },
     change: function (index) {
       this.selectedLang = this.lang[index]
       if (index === 0) {
@@ -86,11 +104,23 @@ export default {
   },
   watch: {
     $route () {
+    },
+    Authorization () {
+      let token = localStorage.getItem('Authorization')
+      if (token === null || token === '') {
+        this.logged = false
+      } else {
+        this.logged = true
+        this.user = window.localStorage.getItem('User')
+      }
     }
   },
   computed: {
     area () {
       return this.$i18n.locale
+    },
+    Authorization () {
+      return this.$store.state.Authorization
     }
   },
   mounted: function () {
@@ -98,6 +128,14 @@ export default {
       this.selectedLang = '简体中文'
     } else {
       this.selectedLang = 'English'
+    }
+    let token = localStorage.getItem('Authorization')
+    if (token === null || token === '' || token === undefined) {
+      this.logged = false
+      console.log(1111111111111111)
+    } else {
+      this.logged = true
+      this.user = window.localStorage.getItem('User')
     }
   }
 }

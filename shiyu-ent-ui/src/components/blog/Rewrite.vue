@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import bg from './assert/bg2.jpg'
+import bg from './assets/bg2.jpg'
 
 // import dedent from 'dedent'
 import hljs from 'highlight.js'
@@ -101,7 +101,7 @@ export default {
     errorAlter: false,
     backgroundDiv: {
 
-      backgroundImage: 'url(' + require('./assert/bg1.jpg') + ')',
+      backgroundImage: 'url(' + require('./assets/bg1.jpg') + ')',
 
       // backgroundRepeat: 'no-repeat',
       backgroundAttachment: 'fixed',
@@ -153,7 +153,6 @@ export default {
       let url = '/blog/search/' + id
       this.$axios.get(url).then((res) => {
         if (res.status === 200) {
-          console.log(res.data.list)
           this.content = res.data.content
           this.newTitle = res.data.title
           this.id = res.data.id

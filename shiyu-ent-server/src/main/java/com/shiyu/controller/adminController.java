@@ -1,5 +1,7 @@
 package com.shiyu.controller;
 
+import com.shiyu.authority.AuthorityCenter;
+import com.shiyu.entity.model.AdminDto;
 import com.shiyu.entity.repository.AdminDo;
 import com.shiyu.service.AdminService;
 import com.shiyu.utils.TokenUtil;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -19,22 +23,29 @@ public class adminController {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private AuthorityCenter authorityCenter;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AdminDo adminDo,
                                    HttpServletRequest request) {
         String token = "";
-        if (adminService.userLogin(adminDo)){
+        AdminDo user = adminService.userLogin(adminDo);
+        if (user != null){
             token = TokenUtil.createToken(request, adminDo.getAccount());
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            authorityCenter.userLogin(adminDo.getAccount(), token);
+            AdminDto result = new AdminDto(user);
+            result.setToken(token);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 
+    // 暂不开放 TODO
     @PostMapping("/register")
     public ResponseEntity<?> register() {
         adminService.registerAdmin();
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }

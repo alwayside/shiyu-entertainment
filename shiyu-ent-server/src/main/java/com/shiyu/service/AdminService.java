@@ -18,7 +18,7 @@ public class AdminService {
         return adminMapper.selectId(id);
     }
 
-    public boolean userLogin(AdminDo adminDo) {
+    public AdminDo userLogin(AdminDo adminDo) {
         AdminDo user = adminMapper.selectAccount(adminDo.getAccount());
         String password = adminDo.getPassWord();
         try {
@@ -26,10 +26,15 @@ public class AdminService {
             byte md5[] = md.digest(password.getBytes());
             BASE64Encoder encoder = new BASE64Encoder();
             password = encoder.encode(md5);
+            if (user.getPassWord().equals(password)){
+                user.setPassWord(null);
+                return user;
+            }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            return null;
         }
-        return user.getPassWord().equals(password);
+        return user;
     }
 
     public void registerAdmin() {

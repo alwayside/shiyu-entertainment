@@ -87,7 +87,6 @@ export default {
       let url = '/blog/search?title=' + this.searchTitle + '&pageNum=' + this.page + '&pageSize=10'
       this.$axios.get(url).then((res) => {
         if (res.status === 200) {
-          console.log(res.data.list)
           this.datas = res.data.list
           this.pagelength = res.date.pages
         }
