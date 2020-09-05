@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiyu.mapper.AlbumMapper">
+
+
+    <select id="selectByName" resultType="com.shiyu.entity.repository.AlbumDo">
+        SELECT * FROM album al
+        <if test="albumName != null and albumName != ''">
+            WHERE al.album_name LIKE "%"#{albumName}"%"
+        </if>
+    </select>
+
+    <insert id="addAlbum">
+        INSERT INTO album VALUES (default ,#{albumName},null,#{userId}, default)
+  	</insert>
+
+    <delete id="deleteAlbumById">
+        delete from album where album_id = #{albumId}
+    </delete>
+
+    <delete id="deleteAlbumPhotoById">
+        delete from albumPhoto where album_id = #{albumId}
+    </delete>
+
+    <insert id="saveAlbumCover">
+        update album
+        <set>
+            <if test="photoId != null">album_cover=#{photoId}</if>
+        </set>
+        where album_id = #{albumId}
+    </insert>
+
+
+    <select id="selectById" resultType="com.shiyu.entity.repository.AlbumDo">
+        SELECT * FROM album al
+        WHERE al.album_id = #{albumId}
+    </select>
+
+    <update id="updateAlbum">
+        update album
+        <set>
+            <if test="albumName != null">album_name=#{albumName}</if>
+        </set>
+        where album_id = #{albumId}
+    </update>
+
+    <select id="selectByUser" resultType="com.shiyu.entity.repository.AlbumDo">
+        SELECT * FROM album al
+        WHERE al.user_id = #{userId}
+        <if test="albumName != null and albumName != ''">
+            AND al.album_name LIKE "%"#{albumName}"%"
+        </if>
+    </select>
+</mapper>

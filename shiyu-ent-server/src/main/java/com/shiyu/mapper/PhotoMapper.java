@@ -3,6 +3,7 @@ package com.shiyu.mapper;
 import com.shiyu.entity.repository.Photo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * photo-manager
@@ -10,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @since
  **/
-@Mapper
+@Repository
 public interface PhotoMapper {
 
     void addPhoto(@Param("pictureWidth") Integer pictureWidth,

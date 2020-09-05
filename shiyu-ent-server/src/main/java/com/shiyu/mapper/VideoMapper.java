@@ -3,6 +3,7 @@ package com.shiyu.mapper;
 import com.shiyu.entity.repository.Video;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -11,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  *
  * @since
  **/
-@Mapper
+@Repository
 public interface VideoMapper {
 
     void addVideo(@Param("width") Integer width,

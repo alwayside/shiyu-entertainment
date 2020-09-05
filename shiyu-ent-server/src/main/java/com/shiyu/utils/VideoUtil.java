@@ -5,7 +5,6 @@ import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.springframework.web.multipart.MultipartFile;
-import yui.file.uploader.media.entity.Video;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -51,9 +51,6 @@ public class PhotoServiceImpl implements PhotoService {
      */
     private static long maxSize = 10 * 1024 * 1024;
 
-
-    private static final String STORE_PATH = "\\store_photo";
-
     private static Logger logger = LoggerFactory.getLogger(PhotoServiceImpl.class);
 
     public PhotoServiceImpl() {
@@ -97,7 +94,7 @@ public class PhotoServiceImpl implements PhotoService {
                 return;
             }
             String base = System.getProperty("user.dir");
-            String path = base + STORE_PATH + "\\" + PhotoUtil.creatPathName(multipartFile);
+            String path = base + PhotoUtil.getStorePath() + "\\" + PhotoUtil.creatPathName(multipartFile);
             File file = PhotoUtil.saveFile(multipartFile, path);
             Photo photo = PhotoUtil.getPhotoParams(file);
             photo.setMd5Code(md5);

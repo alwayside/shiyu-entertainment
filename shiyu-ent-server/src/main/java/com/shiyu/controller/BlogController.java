@@ -34,7 +34,7 @@ public class BlogController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public ResponseEntity<?> search(@RequestParam(value = "title", required = false) String title,
                                    @RequestParam Integer pageNum,
                                    @RequestParam Integer pageSize) {
@@ -42,13 +42,13 @@ public class BlogController {
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
-    @GetMapping("search/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<?> searchArticleById(@PathVariable(value = "id") Long id) {
         List<ArticleDo> list= blogService.searchArticleById(id);
         return new ResponseEntity<>(list.get(0), HttpStatus.OK);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id,
                                     HttpServletRequest request) throws Throwable {
         authorityCenter.check(request);
@@ -56,7 +56,7 @@ public class BlogController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody ArticleDo articleDo,
                                     HttpServletRequest request) throws Throwable {
         authorityCenter.check(request);

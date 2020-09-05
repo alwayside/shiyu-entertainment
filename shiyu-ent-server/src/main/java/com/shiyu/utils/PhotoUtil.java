@@ -19,6 +19,8 @@ import java.io.IOException;
 
 public abstract class PhotoUtil {
 
+    private static final String STORE_PATH = "\\store_photo";
+
     private static final String IMAGE = "image";
 
     private static final double THUMB_RATIO = 300.0;
@@ -30,6 +32,10 @@ public abstract class PhotoUtil {
 
     public static String getImageType(MultipartFile file) {
         return file.getContentType().substring(file.getContentType().lastIndexOf("/") + 1);
+    }
+
+    public static String getStorePath() {
+        return STORE_PATH;
     }
 
     /**
