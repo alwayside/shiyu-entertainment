@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shiyu.mapper.PhotoMapper">
+
+    <insert id="addPhoto">
+        INSERT into photo value(default, #{pictureWidth},#{pictureHeight},#{imageType},#{size},#{fileType},#{createTime},#{fileName},#{path},#{md5Code})
+    </insert>
+
+    <select id="checkMd5" resultType="java.lang.Long">
+        SELECT id FROM photo WHERE md5_code = #{md5Code}
+    </select>
+
+    <select id="getPhotoById" resultType="com.shiyu.entity.repository.Photo">
+        SELECT * FROM photo WHERE id = #{photoId}
+    </select>
+
+</mapper>
