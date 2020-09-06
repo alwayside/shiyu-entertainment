@@ -14,9 +14,6 @@
       <v-btn block color="primary" @click="dialog = true" class="mt-2">
         提 交
       </v-btn>
-      <v-btn block color="primary" @click="delDialog = true" class="mt-2">
-        删除
-      </v-btn>
       <v-btn @click="$router.back(-1)" class="mt-2" block color='success' dark >
              返 回
       </v-btn>
@@ -27,7 +24,7 @@
           <quill-editor
           class="editor"
           ref="myTextEditor"
-          :value="content"
+          :v-model="content"
           :options="editorOption"
           @change="onEditorChange"
           @blur="onEditorBlur($event)"

@@ -33,6 +33,11 @@
   </v-row>
   <v-row>
     <v-col sm=1></v-col>
+     <v-col>
+        <v-btn block color="error" @click="delDialog = true" class="mt-2">
+        删除
+      </v-btn>
+    </v-col>
     <v-col>
       <v-btn @click="$router.back(-1)" class="mt-2" block color='success' dark >
              返 回
@@ -56,6 +61,17 @@
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
           <v-btn color="green darken-1" text @click=addNewBlog() >Submit</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+         <v-dialog v-model="delDialog" persistent max-width="400">
+      <v-card>
+        <v-card-title class="headline">确定删除？</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="delDialog = false">关闭</v-btn>
+          <v-btn color="green darken-1" text @click=deleteBlog() >确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -93,6 +109,7 @@ export default {
     quillEditor
   },
   data: () => ({
+    delDialog: false,
     dialog: false,
     newTitle: 'the title',
     url: bg,
@@ -145,6 +162,20 @@ export default {
     },
     onEditorReady (editor) {
       console.log('editor ready!', editor)
+    },
+    deleteBlog () {
+      this.delDialog = false
+      let url = '/blog/delete/' + this.id
+      this.$axios.delete(url).then((res) => {
+        if (res.status === 200) {
+          this.$router.push('/blog')
+        }
+      }).catch((err) => {
+        if (err) {
+          this.error = err.response.data ? err.response.data : 'error'
+          this.errorAlter = true
+        }
+      })
     },
     getData (id) {
       if (id == null) {

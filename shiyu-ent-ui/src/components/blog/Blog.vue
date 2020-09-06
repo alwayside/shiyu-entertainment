@@ -125,6 +125,13 @@ export default {
   },
   mounted: function () {
     this.getData()
+    let token = localStorage.getItem('Authorization')
+    if (token === null || token === '') {
+      this.logged = false
+    } else {
+      this.logged = true
+      this.user = window.localStorage.getItem('User')
+    }
   }
 }
 </script>
