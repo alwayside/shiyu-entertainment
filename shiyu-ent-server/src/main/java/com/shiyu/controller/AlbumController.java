@@ -33,6 +33,12 @@ public class AlbumController {
     @Autowired
     private PhotoService photoService;
 
+    @GetMapping("/{albumId}")
+    public ResponseEntity<?> getAlbumById(@PathVariable("albumId") Long albumId) {
+        AlbumDo result = albumService.getAlbumById(albumId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @GetMapping("/search")
     public ResponseEntity<?> search(@RequestParam(value = "albumName", required = false) String albumName,
                                     @RequestParam Integer pageNum,
@@ -78,6 +84,16 @@ public class AlbumController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/{albumId}/cover/{photoId}")
+    public ResponseEntity<?> setCover(@PathVariable("albumId") Long albumId,
+                                      @PathVariable("photoId") Long photoId,
+                                      MultipartFile file,
+                                      HttpServletRequest request) throws Throwable {
+        authorityCenter.check(request);
+        albumService.setAlbumCoverPhoto(albumId, photoId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/photo/{albumId}")
     public ResponseEntity<?> addPhotoToAlbum(@PathVariable("albumId") Long albumId,
                                              MultipartFile file,
@@ -91,12 +107,22 @@ public class AlbumController {
     }
 
     @PutMapping("/update/{albumId}")
-    public ResponseEntity<?> updateAlbum(@RequestBody AlbumDo albumDo,
+    public ResponseEntity<?> updateAlbum(@PathVariable("albumId") Long albumId,
+                                         @RequestBody AlbumDo albumDo,
                                          HttpServletRequest request) throws Throwable {
         authorityCenter.check(request);
+        albumDo.setAlbumId(albumId);
         albumService.updateAlbum(albumDo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{albumId}/{photoId}")
+    public ResponseEntity<?> deleteAlbumPhoto(@PathVariable("albumId") Long albumId,
+                                              @PathVariable("photoId") Long photoId,
+                                              HttpServletRequest request) throws Throwable {
+        authorityCenter.check(request);
+        albumService.deleteAlbumPhoto(albumId, photoId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

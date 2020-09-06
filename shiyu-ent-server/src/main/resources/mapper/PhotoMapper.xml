@@ -14,4 +14,10 @@
         SELECT * FROM photo WHERE id = #{photoId}
     </select>
 
+    <select id="getPhotoByAlbum" resultType="com.shiyu.entity.repository.Photo">
+        SELECT * FROM photo p
+        INNER JOIN album_photo ap ON ap.photo_id = p.id
+        WHERE ap.album_id = #{albumId}
+    </select>
+
 </mapper>

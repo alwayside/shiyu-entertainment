@@ -6,7 +6,7 @@ public class AlbumDo {
 
     private Long albumId;
 
-    private Long albumName;
+    private String albumName;
 
     private Date dateTime;
 
@@ -22,11 +22,11 @@ public class AlbumDo {
         this.albumId = albumId;
     }
 
-    public Long getAlbumName() {
+    public String getAlbumName() {
         return albumName;
     }
 
-    public void setAlbumName(Long albumName) {
+    public void setAlbumName(String albumName) {
         this.albumName = albumName;
     }
 

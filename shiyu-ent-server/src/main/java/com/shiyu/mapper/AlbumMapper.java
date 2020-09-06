@@ -12,7 +12,7 @@ public interface AlbumMapper {
 
     List<AlbumDo> selectByName(@Param("albumName") String albumName);
 
-    void addAlbum(@Param("userId") Long userId, @Param("albumName") Long albumName);
+    void addAlbum(@Param("userId") Long userId, @Param("albumName") String albumName);
 
     void deleteAlbumById(@Param("albumId") Long albumId);
 
@@ -24,7 +24,9 @@ public interface AlbumMapper {
 
     List<AlbumDo> selectById(@Param("albumId") Long albumId);
 
-    void updateAlbum(@Param("albumId")Long albumId,@Param("albumName") Long albumName);
+    void updateAlbum(@Param("albumId") Long albumId, @Param("albumName") String albumName);
 
-    List<AlbumDo> selectByUser(@Param("albumName")String albumName,@Param("userId") Long userId);
+    List<AlbumDo> selectByUser(@Param("albumName") String albumName, @Param("userId") Long userId);
+
+    void deleteAlbumPhoto(@Param("albumId") Long albumId, @Param("photoId") Long photoId);
 }

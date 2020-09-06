@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * photo-manager
  * 2020/8/21 15:22
@@ -27,4 +29,6 @@ public interface PhotoMapper {
     Long checkMd5(@Param("md5Code") String md5);
 
     Photo getPhotoById(@Param("photoId") Long photoId);
+
+    List<Photo> getPhotoByAlbum(Long albumId);
 }

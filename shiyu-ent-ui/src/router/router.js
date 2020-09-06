@@ -7,6 +7,10 @@ import BlogEdit from '@/components/blog/Edit'
 import BlogDetail from '@/components/blog/Detail'
 import BlogRewrite from '@/components/blog/rewrite'
 import Login from '@/components/login/login'
+import Album from '@/components/album/Album'
+import AlbumManagemrnt from '@/components/album/AlbumMangement'
+import AlbumEdit from '@/components/album/Edit'
+import AlbumDetail from '@/components/album/Detail'
 
 Vue.use(Router)
 
@@ -58,6 +62,42 @@ const router = new Router({
           next()
         }
       }
+    },
+    {
+      path: '/album',
+      name: 'album',
+      component: Album
+    },
+    {
+      path: '/album/management',
+      name: 'albummanagement',
+      component: AlbumManagemrnt,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('Authorization')
+        if (token === null || token === '') {
+          next('/login')
+        } else {
+          next()
+        }
+      }
+    },
+    {
+      path: '/album/edit/:id',
+      name: 'albumedit',
+      component: AlbumEdit,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('Authorization')
+        if (token === null || token === '') {
+          next('/login')
+        } else {
+          next()
+        }
+      }
+    },
+    {
+      path: '/album/detail/:id',
+      name: 'albumdetail',
+      component: AlbumDetail
     },
     {
       path: '/login',

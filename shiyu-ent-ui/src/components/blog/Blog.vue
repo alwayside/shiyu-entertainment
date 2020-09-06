@@ -6,7 +6,7 @@
     <v-col sm=2>
       <div style="min-width:100%;display-flex;flex-direction: column;">
          <v-text-field
-            :value=searchTitle
+            v-model=searchTitle
             label="标题"
           ></v-text-field>
       <v-btn block color="primary" @click=getData()>搜 索</v-btn>
@@ -45,7 +45,7 @@
     <v-card-actions style="display:flex;justify-content:space-between">
       <span style="ml-5 mr-5">作者: Admin</span>
           <span style="ml-5 mr-5">更新日期:{{ new Date(Date.parse(item.dateTime)).toLocaleString() }}</span>
-      <v-btn text :to=getEditTarget(item.id)>edit</v-btn>
+      <div v-if="logged"><v-btn text :to=getEditTarget(item.id)>edit</v-btn></div>
       <v-btn text :to=getTarget(item.id)>Detail</v-btn>
     </v-card-actions>
   </v-card>
@@ -71,6 +71,7 @@ export default {
   name: 'HomePage',
   data: () => ({
     errorAlter: false,
+    logged: false,
     pagelength: 1,
     page: 1,
     searchTitle: '',
@@ -110,6 +111,17 @@ export default {
     }
   },
   created () {
+  },
+  watch: {
+    Authorization () {
+      let token = localStorage.getItem('Authorization')
+      if (token === null || token === '') {
+        this.logged = false
+      } else {
+        this.logged = true
+        this.user = window.localStorage.getItem('User')
+      }
+    }
   },
   mounted: function () {
     this.getData()

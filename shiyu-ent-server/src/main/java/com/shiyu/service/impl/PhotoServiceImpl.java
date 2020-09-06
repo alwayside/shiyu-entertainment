@@ -1,5 +1,8 @@
 package com.shiyu.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shiyu.entity.repository.Photo;
 import com.shiyu.mapper.PhotoMapper;
 import com.shiyu.service.PhotoService;
@@ -17,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * photo-manager
@@ -108,6 +112,14 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     public Photo getPhotoById(Long photoId) {
         return photoMapper.getPhotoById(photoId);
+    }
+
+    @Override
+    public PageInfo<Photo> getPhotoByAlbum(Long albumId, Page page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<Photo> result =  photoMapper.getPhotoByAlbum(albumId);
+        PageInfo<Photo> pageInfo = new PageInfo<>(result);
+        return pageInfo;
     }
 
     private void savePhoto(Photo photo) {

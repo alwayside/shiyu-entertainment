@@ -56,7 +56,7 @@ export default {
         src: bg2,
         buttons: [{
           text: 'See more',
-          dir: '/blog'
+          dir: '/album'
         }]
       },
       {

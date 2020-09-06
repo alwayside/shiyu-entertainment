@@ -14,12 +14,20 @@
         INSERT INTO album VALUES (default ,#{albumName},null,#{userId}, default)
   	</insert>
 
+    <insert id="addPhotoToAlbum">
+        INSERT INTO album_photo VALUES (#{albumId}, #{photoId})
+  	</insert>
+
     <delete id="deleteAlbumById">
         delete from album where album_id = #{albumId}
     </delete>
 
     <delete id="deleteAlbumPhotoById">
-        delete from albumPhoto where album_id = #{albumId}
+        delete from album_photo where album_id = #{albumId}
+    </delete>
+
+    <delete id="deleteAlbumPhoto">
+        delete from album_photo where album_id = #{albumId} AND photo_id = #{photoId}
     </delete>
 
     <insert id="saveAlbumCover">

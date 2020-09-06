@@ -212,6 +212,7 @@ export default {
   },
   mounted: function () {
     console.log('this is Quill instance:', this.editor)
+    this.id = this.$route.params.id
   }
 }
 </script>

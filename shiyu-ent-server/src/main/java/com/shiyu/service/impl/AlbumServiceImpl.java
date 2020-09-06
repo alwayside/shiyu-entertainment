@@ -128,5 +128,22 @@ public class AlbumServiceImpl implements AlbumService {
         return pageInfo;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteAlbumPhoto(Long albumId, Long photoId) {
+        albumMapper.deleteAlbumPhoto(albumId, photoId);
+    }
 
+    @Override
+    public AlbumDo getAlbumById(Long albumId) {
+        return albumMapper.selectById(albumId).get(0);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void setAlbumCoverPhoto(Long albumId, Long photoId) {
+        if (albumMapper.selectById(albumId).size() > 0 && photoMapper.getPhotoById(photoId) != null) {
+            albumMapper.saveAlbumCover(albumId, photoId);
+        }
+    }
 }

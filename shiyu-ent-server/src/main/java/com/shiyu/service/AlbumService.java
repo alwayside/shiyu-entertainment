@@ -20,4 +20,10 @@ public interface AlbumService {
     void updateAlbum(AlbumDo albumDo);
 
     PageInfo<AlbumDo> searchAlbumByUser(String albumName, Long userId, Page page);
+
+    void deleteAlbumPhoto(Long albumId, Long photoId);
+
+    AlbumDo getAlbumById(Long albumId);
+
+    void setAlbumCoverPhoto(Long albumId, Long photoId);
 }
