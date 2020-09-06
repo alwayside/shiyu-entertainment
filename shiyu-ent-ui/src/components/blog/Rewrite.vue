@@ -33,11 +33,7 @@
   </v-row>
   <v-row>
     <v-col sm=1></v-col>
-     <v-col>
-        <v-btn block color="error" @click="delDialog = true" class="mt-2">
-        删除
-      </v-btn>
-    </v-col>
+
     <v-col>
       <v-btn @click="$router.back(-1)" class="mt-2" block color='success' dark >
              返 回
@@ -48,6 +44,12 @@
         提 交
       </v-btn>
           </v-col>
+
+               <v-col>
+        <v-btn block color="error" @click="delDialog = true" class="mt-2">
+        删除
+      </v-btn>
+    </v-col>
       <v-col sm=1></v-col>
   </v-row>
 

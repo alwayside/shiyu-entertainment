@@ -185,6 +185,7 @@ export default {
           this.newTitle = ''
           this.content = ''
           this.successAlter = true
+          this.$router.push('/blog')
         }
       }).catch((err) => {
         if (err) {
