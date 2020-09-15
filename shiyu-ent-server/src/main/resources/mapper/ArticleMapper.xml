@@ -32,4 +32,13 @@
         </set>
         where id=#{id}
     </update>
+
+    <select id="selectByUser" resultType="com.shiyu.entity.model.ArticleDto">
+        SELECT * FROM article sa
+        LEFT JOIN admin ad ON ad.id = sa.user_id
+        WHERE sa.user_id = #{userId}
+        <if test="title != null and title != ''">
+            AND sa.title LIKE "%"#{title}"%"
+        </if>
+    </select>
 </mapper>

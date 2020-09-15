@@ -19,4 +19,6 @@ public interface ArticleMapper {
     void deleteById(@Param("id")Long id);
 
     void updateArticle(@Param("id")Long id, @Param("content") String content,@Param("title") String title);
+
+    List<ArticleDto> selectByUser(@Param("title")String title,@Param("userId") Long userId);
 }

@@ -17,4 +17,6 @@ public interface BlogService {
     void deleteArticleById(Long id);
 
     void updateArticle(ArticleDo articleDo);
+
+    PageInfo<ArticleDto> searchBlogByUser(String title, Long userId, Page page);
 }

@@ -52,7 +52,7 @@ public class AuthorityCenter {
 
     //确认登录状态
     public void check(HttpServletRequest request) throws Throwable {
-        String user = request.getHeader(USER_HEADER_KEY);
+        String user = request.getHeader(USER_ID_HEADER_KEY);
         String token = request.getHeader(TOKEN_HEADER_KEY);
         if (checkToken(user, token)) {
             return;
@@ -65,7 +65,7 @@ public class AuthorityCenter {
         if (user == null || token == null) {
             return false;
         }
-        TokenCache tokenCache = tokenCacheCenter.get(user);
+        TokenCache tokenCache = tokenCacheCenter.get(Long.valueOf(user));
         if (tokenCache.getUserToken().equals(token)) {
             if (tokenCache.getExpiryTime() < System.currentTimeMillis()) {
                 tokenCacheCenter.remove(user);

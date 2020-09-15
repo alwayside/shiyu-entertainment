@@ -60,7 +60,11 @@ public class AlbumController {
     @PostMapping("/save")
     public ResponseEntity<?> addAlbum(@RequestBody AlbumDo albumDo,
                                       HttpServletRequest request) throws Throwable {
-        authorityCenter.check(request);
+        try {
+            authorityCenter.check(request);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
         albumService.saveAlbum(albumDo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -68,7 +72,11 @@ public class AlbumController {
     @DeleteMapping("/delete/{albumId}")
     public ResponseEntity<?> deleteAlbum(@PathVariable("albumId") Long albumId,
                                          HttpServletRequest request) throws Throwable {
-        authorityCenter.check(request);
+        try {
+            authorityCenter.check(request);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
         albumService.deleteAlbumById(albumId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -77,7 +85,11 @@ public class AlbumController {
     public ResponseEntity<?> setCover(@PathVariable("albumId") Long albumId,
                                       MultipartFile file,
                                       HttpServletRequest request) throws Throwable {
-        authorityCenter.check(request);
+        try {
+            authorityCenter.check(request);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
         if (!photoService.checkFileForSpringUpload(file)) {
             throw new RuntimeException("上传" + file.getOriginalFilename());
         }
@@ -90,7 +102,11 @@ public class AlbumController {
                                       @PathVariable("photoId") Long photoId,
                                       MultipartFile file,
                                       HttpServletRequest request) throws Throwable {
-        authorityCenter.check(request);
+        try {
+            authorityCenter.check(request);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
         albumService.setAlbumCoverPhoto(albumId, photoId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -99,7 +115,11 @@ public class AlbumController {
     public ResponseEntity<?> addPhotoToAlbum(@PathVariable("albumId") Long albumId,
                                              MultipartFile file,
                                              HttpServletRequest request) throws Throwable {
-        authorityCenter.check(request);
+        try {
+            authorityCenter.check(request);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
         if (!photoService.checkFileForSpringUpload(file)) {
             throw new RuntimeException("上传" + file.getOriginalFilename());
         }
@@ -111,7 +131,11 @@ public class AlbumController {
     public ResponseEntity<?> updateAlbum(@PathVariable("albumId") Long albumId,
                                          @RequestBody AlbumDo albumDo,
                                          HttpServletRequest request) throws Throwable {
-        authorityCenter.check(request);
+        try {
+            authorityCenter.check(request);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
         albumDo.setAlbumId(albumId);
         albumService.updateAlbum(albumDo);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -121,7 +145,11 @@ public class AlbumController {
     public ResponseEntity<?> deleteAlbumPhoto(@PathVariable("albumId") Long albumId,
                                               @PathVariable("photoId") Long photoId,
                                               HttpServletRequest request) throws Throwable {
-        authorityCenter.check(request);
+        try {
+            authorityCenter.check(request);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
         albumService.deleteAlbumPhoto(albumId, photoId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -54,4 +54,22 @@ public class AdminService {
         }
         adminMapper.adminRegister(account, username, password);
     }
+
+    public void register(AdminDo adminDo) throws Throwable {
+        String account = adminDo.getAccount();
+        String username = adminDo.getUserName();
+        String password = adminDo.getPassWord();
+        try {
+            MessageDigest md = MessageDigest.getInstance("md5");
+            byte md5[] = md.digest(password.getBytes());
+            BASE64Encoder encoder = new BASE64Encoder();
+            password = encoder.encode(md5);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        if (adminMapper.selectAccount(account) != null) {
+            throw new Throwable("duplicate account");
+        }
+        adminMapper.adminRegister(account, username, password);
+    }
 }

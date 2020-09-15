@@ -3,10 +3,12 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Home from '@/components/home/home'
 import Blog from '@/components/blog/Blog'
+import BlogManagement from '@/components/blog/BlogManagement'
 import BlogEdit from '@/components/blog/Edit'
 import BlogDetail from '@/components/blog/Detail'
 import BlogRewrite from '@/components/blog/rewrite'
 import Login from '@/components/login/login'
+import Register from '@/components/login/register'
 import Album from '@/components/album/Album'
 import AlbumManagemrnt from '@/components/album/AlbumMangement'
 import AlbumEdit from '@/components/album/Edit'
@@ -31,6 +33,19 @@ const router = new Router({
       path: '/blog',
       name: 'Blog',
       component: Blog
+    },
+    {
+      path: '/blog/management',
+      name: 'Blog',
+      component: BlogManagement,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('Authorization')
+        if (token === null || token === '') {
+          next('/login')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/blog/edit',
@@ -102,7 +117,28 @@ const router = new Router({
     {
       path: '/login',
       name: 'HelloWord',
-      component: Login
+      component: Login,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('Authorization')
+        if (token === null || token === '') {
+          next()
+        } else {
+          next('/home')
+        }
+      }
+    },
+    {
+      path: '/register',
+      name: 'HelloWord',
+      component: Register,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('Authorization')
+        if (token === null || token === '') {
+          next()
+        } else {
+          next('/home')
+        }
+      }
     }
   ]
 })

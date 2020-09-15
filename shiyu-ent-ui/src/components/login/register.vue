@@ -16,7 +16,7 @@
           <div class="sk-cube3 sk-cube"></div>
         </div>
         <div class="title">
-          <strong>请输入登录信息</strong>
+          <strong>请输入注册信息</strong>
         </div>
       </v-col>
       <v-col class="transparent" />
@@ -28,8 +28,9 @@
         <div>
           <v-text-field type="text" outlined v-model="loginForm.account" placeholder="用户名" />
           <v-text-field type="password" outlined v-model="loginForm.passWord" placeholder="密码" />
-          <v-btn @click="login" class="ma-2" color="primary">登录</v-btn>
-          <v-btn @click="$router.push('/register')" class="ma-2" color="primary">注册</v-btn>
+          <v-text-field type="password" outlined v-model="loginForm.passWord2" placeholder="确认密码" />
+          <v-btn @click="register" class="ma-2" color="primary">注册</v-btn>
+          <v-btn @click="$router.push('/login')" class="ma-2" color="primary">登录</v-btn>
           <v-btn @click="$router.back(-1)" class="ma-2" color='success' dark >
              返 回
           </v-btn>
@@ -66,33 +67,42 @@ export default {
     },
     loginForm: {
       account: '',
-      passWord: ''
+      passWord: '',
+      passWord2: ''
     }
   }),
   methods: {
-    login () {
+    register () {
       if (this.loginForm.account === '' || this.loginForm.passWord === '') {
         this.error = '账号或密码不能为空'
         this.errorAlter = true
-      } else {
-        let url = '/admin/login'
-        this.$axios
-          .post(url, this.loginForm)
-          .then((res) => {
-            if (res.status === 200) {
-              // 将用户token保存到vuex中
-              this.$store.dispatch('login', res.data)
-              this.$router.push('/home')
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-            if (err) {
-              this.error = err.response ? err.response.data : 'error'
-              this.errorAlter = true
-            }
-          })
+        return
       }
+      if (this.loginForm.passWord !== this.loginForm.passWord2) {
+        this.error = '密码不一致'
+        this.errorAlter = true
+        return
+      }
+
+      let url = '/admin/register'
+      let admin = {
+        account: this.loginForm.account,
+        passWord: this.loginForm.passWord
+      }
+      this.$axios
+        .post(url, admin)
+        .then((res) => {
+          if (res.status === 200) {
+            this.$router.push('/login')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (err) {
+            this.error = err.response ? err.response.data : 'error'
+            this.errorAlter = true
+          }
+        })
     }
   },
   computed: {

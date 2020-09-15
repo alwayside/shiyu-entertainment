@@ -1,6 +1,12 @@
 <template>
 <div>
   <div style="height:120px;"/>
+  <v-row ><br /></v-row>
+    <v-row>
+      <v-col ></v-col>
+      <v-col sm="2"><h1>Blog管理</h1></v-col>
+      <v-col ></v-col>
+    </v-row>
   <v-row>
     <v-col sm=1></v-col>
     <v-col sm=2>
@@ -10,7 +16,7 @@
             label="标题"
           ></v-text-field>
       <v-btn block color="primary" @click=getData()>搜 索</v-btn>
-      <v-btn v-if="logged" block color="success" class="mt-3" @click="blogManage" >我的blog</v-btn>
+      <v-btn block color="success" class="mt-3"  to="/blog/edit">写一篇Blog</v-btn>
       <v-btn @click="$router.back(-1)" class="mt-3" block color='success' dark >
              返 回
       </v-btn>
@@ -45,6 +51,7 @@
     <v-card-actions style="display:flex;justify-content:space-between">
       <span style="ml-5 mr-5">作者: {{item.userName}}</span>
           <span style="ml-5 mr-5">更新日期:{{ new Date(Date.parse(item.dateTime)).toLocaleString() }}</span>
+      <div v-if="logged"><v-btn text :to=getEditTarget(item.id)>edit</v-btn></div>
       <v-btn text :to=getTarget(item.id)>Detail</v-btn>
     </v-card-actions>
   </v-card>
@@ -77,17 +84,14 @@ export default {
     datas: []
   }),
   methods: {
-    blogManage () {
-      this.$router.push('/blog/management')
-    },
     getTarget (id) {
-      return 'blog/detail/' + id
+      return 'detail/' + id
     },
     getEditTarget (id) {
-      return 'blog/rewrite/' + id
+      return 'rewrite/' + id
     },
     getData () {
-      let url = '/blog/search?title=' + this.searchTitle + '&pageNum=' + this.page + '&pageSize=10'
+      let url = '/blog/search/management/' + localStorage.getItem('Userid') + '?title=' + this.searchTitle + '&pageNum=' + this.page + '&pageSize=10'
       this.$axios.get(url).then((res) => {
         if (res.status === 200) {
           this.datas = res.data.list

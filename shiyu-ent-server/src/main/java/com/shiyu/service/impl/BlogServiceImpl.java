@@ -25,7 +25,7 @@ public class BlogServiceImpl implements BlogService {
         if(articleDo.getTitle() == null || articleDo.getTitle().isEmpty()) {
             throw new RuntimeException("no title");
         }
-        articleMapper.addArticle(articleDo.getTitle(), articleDo.getContent(), articleDo.getDesc(), articleDo.getId());
+        articleMapper.addArticle(articleDo.getTitle(), articleDo.getContent(), articleDo.getDesc(), articleDo.getUserId());
     }
 
     @Override
@@ -55,5 +55,13 @@ public class BlogServiceImpl implements BlogService {
             return;
         }
         articleMapper.updateArticle(articleDo.getId(), articleDo.getContent(), articleDo.getTitle());
+    }
+
+    @Override
+    public PageInfo<ArticleDto> searchBlogByUser(String title, Long userId, Page page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<ArticleDto> result = articleMapper.selectByUser(title, userId);
+        PageInfo<ArticleDto> pageInfo = new PageInfo<>(result);
+        return pageInfo;
     }
 }

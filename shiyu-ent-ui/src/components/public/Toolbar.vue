@@ -52,6 +52,9 @@
       <div v-if="!logged">
           <v-btn @click="login" class="ma-2" color="primary">登录</v-btn>
       </div>
+      <div v-if="!logged">
+          <v-btn @click="register" class="ma-2" color="primary">注册</v-btn>
+      </div>
       <v-flex lg12 style="display:none">
         <!--language select button-->
         <v-menu attach="" bottom left offset-y>
@@ -86,6 +89,9 @@ export default {
   methods: {
     login () {
       this.$router.push('/login')
+    },
+    register () {
+      this.$router.push('/register')
     },
     logout () {
       this.$store.dispatch('logout', null)

@@ -33,7 +33,7 @@ public class AdminController {
         AdminDo user = adminService.userLogin(adminDo);
         if (user != null){
             token = TokenUtil.createToken(request, adminDo.getAccount());
-            authorityCenter.userLogin(adminDo.getId(), token);
+            authorityCenter.userLogin(user.getId(), token);
             AdminDto result = new AdminDto(user);
             result.setToken(token);
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -42,10 +42,10 @@ public class AdminController {
 
     }
 
-    // 暂不开放 TODO
     @PostMapping("/register")
-    public ResponseEntity<?> register() {
-        adminService.registerAdmin();
+    public ResponseEntity<?> register(@RequestBody AdminDo adminDo) throws Throwable {
+        adminService.register(adminDo);
+//        adminService.registerAdmin();
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
