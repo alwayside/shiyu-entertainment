@@ -1,16 +1,16 @@
 package com.shiyu.entity.repository;
 
 public class AdminDo {
-    private int id;
+    private Long id;
     private String account;
     private String userName;
     private String passWord;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

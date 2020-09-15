@@ -26,7 +26,7 @@ _axios.interceptors.request.use(
     }
     if (localStorage.getItem('Authorization')) {
       config.headers.Authorization = localStorage.getItem('Authorization')
-      config.headers.User = localStorage.getItem('User')
+      config.headers.UserId = localStorage.getItem('Userid')
     }
     return config
   },

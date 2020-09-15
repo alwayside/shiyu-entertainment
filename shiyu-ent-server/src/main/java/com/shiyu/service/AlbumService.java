@@ -2,12 +2,13 @@ package com.shiyu.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.shiyu.entity.model.AlbumDto;
 import com.shiyu.entity.repository.AlbumDo;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface AlbumService {
 
-    PageInfo<AlbumDo> searchAlbum(String albumName, Page page);
+    PageInfo<AlbumDto> searchAlbum(String albumName, Page page);
 
     void saveAlbum(AlbumDo albumDo);
 
@@ -19,7 +20,7 @@ public interface AlbumService {
 
     void updateAlbum(AlbumDo albumDo);
 
-    PageInfo<AlbumDo> searchAlbumByUser(String albumName, Long userId, Page page);
+    PageInfo<AlbumDto> searchAlbumByUser(String albumName, Long userId, Page page);
 
     void deleteAlbumPhoto(Long albumId, Long photoId);
 

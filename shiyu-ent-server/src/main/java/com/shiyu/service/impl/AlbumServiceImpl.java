@@ -3,6 +3,7 @@ package com.shiyu.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shiyu.entity.model.AlbumDto;
 import com.shiyu.entity.repository.AlbumDo;
 import com.shiyu.entity.repository.Photo;
 import com.shiyu.mapper.AlbumMapper;
@@ -30,10 +31,10 @@ public class AlbumServiceImpl implements AlbumService {
 
 
     @Override
-    public PageInfo<AlbumDo> searchAlbum(String albumName, Page page) {
+    public PageInfo<AlbumDto> searchAlbum(String albumName, Page page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<AlbumDo> result = albumMapper.selectByName(albumName);
-        PageInfo<AlbumDo> pageInfo = new PageInfo<>(result);
+        List<AlbumDto> result = albumMapper.selectByName(albumName);
+        PageInfo<AlbumDto> pageInfo = new PageInfo<>(result);
         return pageInfo;
     }
 
@@ -121,10 +122,10 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public PageInfo<AlbumDo> searchAlbumByUser(String albumName, Long userId, Page page) {
+    public PageInfo<AlbumDto> searchAlbumByUser(String albumName, Long userId, Page page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<AlbumDo> result = albumMapper.selectByUser(albumName, userId);
-        PageInfo<AlbumDo> pageInfo = new PageInfo<>(result);
+        List<AlbumDto> result = albumMapper.selectByUser(albumName, userId);
+        PageInfo<AlbumDto> pageInfo = new PageInfo<>(result);
         return pageInfo;
     }
 

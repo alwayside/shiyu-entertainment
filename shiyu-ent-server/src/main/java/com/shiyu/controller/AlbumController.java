@@ -3,6 +3,7 @@ package com.shiyu.controller;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.shiyu.authority.AuthorityCenter;
+import com.shiyu.entity.model.AlbumDto;
 import com.shiyu.entity.repository.AlbumDo;
 import com.shiyu.service.AlbumService;
 import com.shiyu.service.PhotoService;
@@ -43,7 +44,7 @@ public class AlbumController {
     public ResponseEntity<?> search(@RequestParam(value = "albumName", required = false) String albumName,
                                     @RequestParam Integer pageNum,
                                     @RequestParam Integer pageSize) {
-        PageInfo<AlbumDo> results = albumService.searchAlbum(albumName, new Page(pageNum, pageSize));
+        PageInfo<AlbumDto> results = albumService.searchAlbum(albumName, new Page(pageNum, pageSize));
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
@@ -52,7 +53,7 @@ public class AlbumController {
                                           @PathVariable("userId") Long userId,
                                           @RequestParam Integer pageNum,
                                           @RequestParam Integer pageSize) {
-        PageInfo<AlbumDo> results = albumService.searchAlbumByUser(albumName, userId, new Page(pageNum, pageSize));
+        PageInfo<AlbumDto> results = albumService.searchAlbumByUser(albumName, userId, new Page(pageNum, pageSize));
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 

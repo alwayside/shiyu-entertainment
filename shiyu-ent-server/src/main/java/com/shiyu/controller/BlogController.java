@@ -3,6 +3,7 @@ package com.shiyu.controller;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.shiyu.authority.AuthorityCenter;
+import com.shiyu.entity.model.ArticleDto;
 import com.shiyu.entity.repository.AdminDo;
 import com.shiyu.entity.repository.ArticleDo;
 import com.shiyu.service.BlogService;
@@ -30,6 +31,11 @@ public class BlogController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody ArticleDo articleDo, HttpServletRequest request) throws Throwable {
         authorityCenter.check(request);
+        Long userId = authorityCenter.getUserId(request);
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        articleDo.setUserId(userId);
         blogService.saveArticle(articleDo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -38,13 +44,13 @@ public class BlogController {
     public ResponseEntity<?> search(@RequestParam(value = "title", required = false) String title,
                                    @RequestParam Integer pageNum,
                                    @RequestParam Integer pageSize) {
-        PageInfo<ArticleDo> results = blogService.searchArticleByTitle(title, new Page(pageNum, pageSize));
+        PageInfo<ArticleDto> results = blogService.searchArticleByTitle(title, new Page(pageNum, pageSize));
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
     @GetMapping("/search/{id}")
     public ResponseEntity<?> searchArticleById(@PathVariable(value = "id") Long id) {
-        List<ArticleDo> list= blogService.searchArticleById(id);
+        List<ArticleDto> list= blogService.searchArticleById(id);
         return new ResponseEntity<>(list.get(0), HttpStatus.OK);
     }
 

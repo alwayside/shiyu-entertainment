@@ -3,6 +3,7 @@ package com.shiyu.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shiyu.entity.model.ArticleDto;
 import com.shiyu.entity.repository.ArticleDo;
 import com.shiyu.mapper.ArticleMapper;
 import com.shiyu.service.BlogService;
@@ -24,19 +25,19 @@ public class BlogServiceImpl implements BlogService {
         if(articleDo.getTitle() == null || articleDo.getTitle().isEmpty()) {
             throw new RuntimeException("no title");
         }
-        articleMapper.addArticle(articleDo.getTitle(), articleDo.getContent(), articleDo.getDesc());
+        articleMapper.addArticle(articleDo.getTitle(), articleDo.getContent(), articleDo.getDesc(), articleDo.getId());
     }
 
     @Override
-    public PageInfo<ArticleDo> searchArticleByTitle(String title, Page page) {
+    public PageInfo<ArticleDto> searchArticleByTitle(String title, Page page) {
         PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<ArticleDo> result = articleMapper.selectByTitle(title);
-        PageInfo<ArticleDo> pageInfo = new PageInfo<>(result);
+        List<ArticleDto> result = articleMapper.selectByTitle(title);
+        PageInfo<ArticleDto> pageInfo = new PageInfo<>(result);
         return pageInfo;
     }
 
     @Override
-    public List<ArticleDo> searchArticleById(Long id) {
+    public List<ArticleDto> searchArticleById(Long id) {
         return articleMapper.selectById(id);
     }
 

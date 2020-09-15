@@ -3,8 +3,9 @@
 <mapper namespace="com.shiyu.mapper.AlbumMapper">
 
 
-    <select id="selectByName" resultType="com.shiyu.entity.repository.AlbumDo">
+    <select id="selectByName" resultType="com.shiyu.entity.model.AlbumDto">
         SELECT * FROM album al
+        LEFT JOIN admin ad ON ad.id = al.user_id
         <if test="albumName != null and albumName != ''">
             WHERE al.album_name LIKE "%"#{albumName}"%"
         </if>
@@ -52,8 +53,9 @@
         where album_id = #{albumId}
     </update>
 
-    <select id="selectByUser" resultType="com.shiyu.entity.repository.AlbumDo">
+    <select id="selectByUser" resultType="com.shiyu.entity.model.AlbumDto">
         SELECT * FROM album al
+        LEFT JOIN admin ad ON ad.id = al.user_id
         WHERE al.user_id = #{userId}
         <if test="albumName != null and albumName != ''">
             AND al.album_name LIKE "%"#{albumName}"%"

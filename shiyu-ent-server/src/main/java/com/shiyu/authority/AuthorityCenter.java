@@ -1,6 +1,5 @@
 package com.shiyu.authority;
 
-import jdk.nashorn.internal.parser.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,18 +12,20 @@ public class AuthorityCenter {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final Map<String, TokenCache> tokenCacheCenter = new ConcurrentHashMap<>();
+    private final Map<Long, TokenCache> tokenCacheCenter = new ConcurrentHashMap<>();
 
     private final String USER_HEADER_KEY = "User";
 
     private final String TOKEN_HEADER_KEY = "Authorization";
+
+    private final String USER_ID_HEADER_KEY = "UserId";
 
     public AuthorityCenter() {
         logger.info("System: AuthorityCenter is setting");
     }
 
     //登录
-    public String userLogin(String user, String token) {
+    public String userLogin(Long user, String token) {
         if (user == null || token == null) {
             return "login failed";
         }
@@ -53,7 +54,7 @@ public class AuthorityCenter {
     public void check(HttpServletRequest request) throws Throwable {
         String user = request.getHeader(USER_HEADER_KEY);
         String token = request.getHeader(TOKEN_HEADER_KEY);
-        if (checkToken(user,token)) {
+        if (checkToken(user, token)) {
             return;
         }
         throw new Throwable("User Not loggin");
@@ -90,6 +91,16 @@ public class AuthorityCenter {
         Long curTime = System.currentTimeMillis();
         curTime = curTime + 1000 * 60 * 10L;
         return curTime;
+    }
+
+    public Long getUserId(HttpServletRequest request) {
+        Long userId = null;
+        try {
+            userId = Long.valueOf(request.getHeader(USER_ID_HEADER_KEY));
+        } catch (Exception e) {
+            return null;
+        }
+        return userId;
     }
 
 

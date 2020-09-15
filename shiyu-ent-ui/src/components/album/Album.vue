@@ -37,7 +37,7 @@
             </v-list-item>
 
             <v-card-actions style="display:flex;justify-content:space-between">
-              <span style="ml-5 mr-5">作者: Admin</span>
+              <span style="ml-5 mr-5">作者: {{item.userName}}</span>
               <span
                 style="ml-5 mr-5"
               >更新日期:{{ new Date(Date.parse(item.dateTime)).toLocaleString() }}</span>

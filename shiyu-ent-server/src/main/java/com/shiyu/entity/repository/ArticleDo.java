@@ -8,6 +8,7 @@ public class ArticleDo {
     private String content;
     private String desc;
     private Date dateTime;
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -47,5 +48,13 @@ public class ArticleDo {
 
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

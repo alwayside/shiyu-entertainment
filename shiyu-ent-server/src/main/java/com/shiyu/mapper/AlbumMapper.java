@@ -1,5 +1,6 @@
 package com.shiyu.mapper;
 
+import com.shiyu.entity.model.AlbumDto;
 import com.shiyu.entity.repository.AlbumDo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,7 @@ import java.util.List;
 @Repository
 public interface AlbumMapper {
 
-    List<AlbumDo> selectByName(@Param("albumName") String albumName);
+    List<AlbumDto> selectByName(@Param("albumName") String albumName);
 
     void addAlbum(@Param("userId") Long userId, @Param("albumName") String albumName);
 
@@ -26,7 +27,7 @@ public interface AlbumMapper {
 
     void updateAlbum(@Param("albumId") Long albumId, @Param("albumName") String albumName);
 
-    List<AlbumDo> selectByUser(@Param("albumName") String albumName, @Param("userId") Long userId);
+    List<AlbumDto> selectByUser(@Param("albumName") String albumName, @Param("userId") Long userId);
 
     void deleteAlbumPhoto(@Param("albumId") Long albumId, @Param("photoId") Long photoId);
 }

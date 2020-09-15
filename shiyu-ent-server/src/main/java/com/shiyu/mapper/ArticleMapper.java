@@ -1,5 +1,6 @@
 package com.shiyu.mapper;
 
+import com.shiyu.entity.model.ArticleDto;
 import com.shiyu.entity.repository.ArticleDo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -9,11 +10,11 @@ import java.util.List;
 @Repository
 public interface ArticleMapper {
 
-    void addArticle(@Param("title") String title,@Param("content") String content,@Param("desc")  String desc);
+    void addArticle(@Param("title") String title,@Param("content") String content,@Param("desc")  String desc, @Param("userId") Long userId);
 
-    List<ArticleDo> selectByTitle(@Param("title") String title);
+    List<ArticleDto> selectByTitle(@Param("title") String title);
 
-    List<ArticleDo> selectById(@Param("id") Long id);
+    List<ArticleDto> selectById(@Param("id") Long id);
 
     void deleteById(@Param("id")Long id);
 

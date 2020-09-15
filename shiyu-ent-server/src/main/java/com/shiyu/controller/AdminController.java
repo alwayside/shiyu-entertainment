@@ -33,7 +33,7 @@ public class AdminController {
         AdminDo user = adminService.userLogin(adminDo);
         if (user != null){
             token = TokenUtil.createToken(request, adminDo.getAccount());
-            authorityCenter.userLogin(adminDo.getAccount(), token);
+            authorityCenter.userLogin(adminDo.getId(), token);
             AdminDto result = new AdminDto(user);
             result.setToken(token);
             return new ResponseEntity<>(result, HttpStatus.OK);
