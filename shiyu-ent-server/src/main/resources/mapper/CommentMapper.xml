@@ -2,5 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shiyu.mapper.CommentMapper">
 
+    <select id="selectCommentById" resultType="com.shiyu.entity.model.CommentDto">
+        SELECT * from comment com
+        left join admin ad on ad.id = com.user_id
+        WHERE com.source_id = #{sourceId}
+        AND com.source_type = #{sourceType}
+    </select>
+
+    <insert id="saveComment">
+        INSERT into comment value(default ,#{content},#{reply},#{sourceId},#{sourceType},default ,#{userId})
+    </insert>
 
 </mapper>

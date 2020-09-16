@@ -32,7 +32,7 @@ public class BlogController {
     public ResponseEntity<?> save(@RequestBody ArticleDo articleDo, HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         Long userId = authorityCenter.getUserId(request);
@@ -72,7 +72,7 @@ public class BlogController {
                                     HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         blogService.deleteArticleById(id);
@@ -84,7 +84,7 @@ public class BlogController {
                                     HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         blogService.updateArticle(articleDo);

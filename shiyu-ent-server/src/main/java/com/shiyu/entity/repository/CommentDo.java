@@ -1,5 +1,7 @@
 package com.shiyu.entity.repository;
 
+import java.util.Date;
+
 public class CommentDo {
 
     private Long commentId;
@@ -13,6 +15,8 @@ public class CommentDo {
     private Long sourceId;
 
     private String sourceType;
+
+    private Date dateTime;
 
     public Long getCommentId() {
         return commentId;
@@ -60,5 +64,13 @@ public class CommentDo {
 
     public void setSourceType(String sourceType) {
         this.sourceType = sourceType;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 }

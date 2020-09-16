@@ -62,7 +62,7 @@ public class AlbumController {
                                       HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         albumService.saveAlbum(albumDo);
@@ -74,7 +74,7 @@ public class AlbumController {
                                          HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         albumService.deleteAlbumById(albumId);
@@ -87,7 +87,7 @@ public class AlbumController {
                                       HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         if (!photoService.checkFileForSpringUpload(file)) {
@@ -104,7 +104,7 @@ public class AlbumController {
                                       HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         albumService.setAlbumCoverPhoto(albumId, photoId);
@@ -117,7 +117,7 @@ public class AlbumController {
                                              HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         if (!photoService.checkFileForSpringUpload(file)) {
@@ -133,7 +133,7 @@ public class AlbumController {
                                          HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         albumDo.setAlbumId(albumId);
@@ -147,7 +147,7 @@ public class AlbumController {
                                               HttpServletRequest request) throws Throwable {
         try {
             authorityCenter.check(request);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
         }
         albumService.deleteAlbumPhoto(albumId, photoId);
