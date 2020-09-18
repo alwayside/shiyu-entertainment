@@ -50,7 +50,10 @@
           </v-card>
 
         </div>
-        <v-pagination v-model="page" :length="pagelength" class="ma-7"></v-pagination>
+        <v-pagination
+        @input="pageChange"
+          v-model="page"
+          :length="pagelength" class="ma-7"></v-pagination>
       </v-col>
       <v-col sm="1"></v-col>
     </v-row>
@@ -106,6 +109,10 @@ export default {
     datas: []
   }),
   methods: {
+    pageChange (e) {
+      this.page = e
+      this.getData()
+    },
     seeDetail () {
       if (this.detailId === 0) {
         return

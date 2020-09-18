@@ -9,4 +9,6 @@ public interface CommentService {
     PageInfo<CommentDto> searchArticleComment(Long articleId, Page page);
 
     void saveArticleComment(Long articleId, CommentDo commentDo);
+
+    PageInfo<CommentDto> searchCommentReply(Long commentId, Page page);
 }

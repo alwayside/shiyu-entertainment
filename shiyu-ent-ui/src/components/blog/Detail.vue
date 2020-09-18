@@ -23,7 +23,7 @@
       <v-col>
         <v-card class="mx-auto" width="100%">
           <v-card-title class="d-flex justify-start">
-            <span style="fontSize:44px" class="ma-4">Comments</span>
+            <span style="fontSize:44px" class="ma-4">评 论</span>
           </v-card-title>
           <v-card-text v-if="commentData.length > 0">
             <v-sheet
@@ -38,15 +38,56 @@
                 <div style="fontSize:24px;color:blue;white-space:nowrap" class="pa-2 d-flex justify-start"><span>{{item.userName}} :</span></div>
                 <div style="fontSize:24px;word-break: break-all;text-align: left;" class="pa-2 d-flex justify-start">{{item.content}}</div>
               </div>
-              <div style="fontSize:18px" class="d-flex justify-start pl-3 pb-3 pr-3">
+              <div style="fontSize:18px" class="d-flex justify-start pl-3 pb-3 pr-3 align-center">
                 <div>发表时间: {{new Date(Date.parse(item.dateTime)).toLocaleString()}}</div>
                 <div style="width:10%"></div>
-                <div>回复: {{item.comments}}</div>
+                <v-btn tile @click.native="responseExpand(item)" color="success" >查看回复 : {{item.comments}}</v-btn>
                 <div style="width:10%"></div>
+              </div>
+              <div style="fontSize:18px" v-if="item.expand" class="d-flex justify-start pl-3 pb-3 pr-3 align-center">
+                <v-row>
+                  <v-col sm=2></v-col>
+                  <v-col>
+                    <v-sheet
+                   class="mt-2"
+                  v-for="(comment, j) in item.replyComment"
+                  :key=j
+                  width="100%"
+                  elevation="3"
+                  tile
+              >
+                    <div class="d-flex justify-start pa-3">
+                      <div style="fontSize:24px;color:blue;white-space:nowrap" class="pa-2 d-flex justify-start"><span>{{comment.userName}} :</span></div>
+                      <div style="fontSize:24px;word-break: break-all;text-align: left;" class="pa-2 d-flex justify-start">{{comment.content}}</div>
+                    </div>
+                    <div style="fontSize:18px" class="d-flex justify-start pl-3 pb-3 pr-3 align-center">
+                      <div>发表时间: {{new Date(Date.parse(comment.dateTime)).toLocaleString()}}</div>
+                    </div>
+                    </v-sheet>
+
+                    <v-pagination
+                      v-if="item.pagelength"
+                      :value="item.page"
+                      @input="pageChange($event, item)"
+                      :length=item.pagelength
+                      class="ma-2"
+                    ></v-pagination>
+
+                    <v-text-field
+                      v-model="item.newComment"
+                      prepend-icon="mdi-message"
+                      placeholder="在这回复..."
+                      :append-outer-icon="item.newComment ? 'mdi-send' : ''"
+                      @click:append-outer="sendMessage(item)"
+                    />
+
+                  </v-col>
+                </v-row>
               </div>
               </v-sheet>
             <v-row justify="center">
             <v-pagination
+            @input="pageChangeAll($event)"
             v-model="commentPage"
             :length=commentPagelength
             class="ma-2"
@@ -82,6 +123,7 @@
 export default {
   name: 'HomePage',
   data: () => ({
+    listPage: [],
     replyId: null,
     commentPage: 1,
     commentPagelength: 1,
@@ -103,6 +145,14 @@ export default {
     }
   }),
   methods: {
+    pageChange (e, i) {
+      i.page = e
+      this.getCommentsReply(i)
+    },
+    pageChangeAll (e) {
+      this.commentPage = e
+      this.getCommentData()
+    },
     getData (id) {
       if (id == null) {
         return
@@ -122,13 +172,47 @@ export default {
           }
         })
     },
+    responseExpand (item) {
+      item.expand = !item.expand
+      if (!item.replyComment) {
+        item.replyComment = []
+      }
+      this.commentData.splice(0, 0)
+      if (item.expand) {
+        this.getCommentsReply(item)
+      }
+    },
     randomRgb: function () {
       var R = Math.floor(Math.random() * 255)
       var G = Math.floor(Math.random() * 255)
       var B = Math.floor(Math.random() * 255)
       return 'rgb(' + R + ',' + G + ',' + B + ')'
     },
-    commentIt (id) {
+    sendMessage (item) {
+      if (item.newComment.length < 1) {
+        return
+      }
+      let url = '/comment/article/' + this.id
+      let commentDo = {
+        content: item.newComment,
+        reply: item.id
+      }
+      this.$axios
+        .post(url, commentDo)
+        .then((res) => {
+          if (res.status === 200) {
+            item.newComment = ''
+            this.getCommentsReply(item)
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            this.error = err.response.data ? err.response.data : 'error'
+            this.errorAlter = true
+          }
+        })
+    },
+    commentIt (item) {
       if (this.newComment.length < 1) {
         return
       }
@@ -136,9 +220,8 @@ export default {
       let commentDo = {
         content: this.newComment
       }
-      console.log(id)
-      if (id) {
-        commentDo.reply = id
+      if (item.id) {
+        commentDo.reply = item.id
       }
       this.$axios
         .post(url, commentDo)
@@ -187,6 +270,31 @@ export default {
           if (res.status === 200) {
             this.commentData = res.data.list
             this.commentPagelength = res.date.pages
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            this.error = err.response.data ? err.response.data : 'error'
+            this.errorAlter = true
+          }
+        })
+    },
+    // 获取评论的评论
+    getCommentsReply (item) {
+      if (!item.page) {
+        item.page = 1
+      }
+      if (!item.pagelength) {
+        item.pagelength = 1
+      }
+      let url = '/comment/reply/' + item.id + '?pageNum=' + item.page + '&pageSize=10'
+      this.$axios
+        .get(url)
+        .then((res) => {
+          if (res.status === 200) {
+            item.replyComment = res.data.list
+            item.pagelength = res.data.pages
+            this.commentData.splice(0, 0)
           }
         })
         .catch((err) => {

@@ -14,4 +14,6 @@ public interface CommentMapper {
     List<CommentDto> selectCommentById(@Param("sourceId") Long sourceId, @Param("sourceType") String type);
 
     void saveComment(@Param("content") String content, @Param("reply") Long reply, @Param("sourceId") Long sourceId, @Param("sourceType") String sourceType, @Param("userId") Long userId);
+
+    List<CommentDto> selectCommentReplyById(@Param("commentId") Long commentId);
 }

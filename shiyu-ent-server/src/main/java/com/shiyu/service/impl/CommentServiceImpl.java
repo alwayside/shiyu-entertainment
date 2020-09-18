@@ -36,4 +36,12 @@ public class CommentServiceImpl implements CommentService {
         commentDo.setSourceType(SourceType.ARTICLE.getValue());
         commentMapper.saveComment(commentDo.getContent(), commentDo.getReply(), commentDo.getSourceId(), commentDo.getSourceType(), commentDo.getUserId());
     }
+
+    @Override
+    public PageInfo<CommentDto> searchCommentReply(Long commentId, Page page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<CommentDto> result = commentMapper.selectCommentReplyById(commentId);
+        PageInfo<CommentDto> pageInfo = new PageInfo<>(result);
+        return pageInfo;
+    }
 }

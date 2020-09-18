@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CommentDo {
 
-    private Long commentId;
+    private Long id;
 
     private String content;
 
@@ -18,12 +18,12 @@ public class CommentDo {
 
     private Date dateTime;
 
-    public Long getCommentId() {
-        return commentId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getContent() {

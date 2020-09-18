@@ -50,6 +50,7 @@
   </v-card>
       </div>
           <v-pagination
+          @input="pageChange"
       v-model="page"
       :length=pagelength
       class="ma-7"
@@ -77,6 +78,10 @@ export default {
     datas: []
   }),
   methods: {
+    pageChange (e) {
+      this.page = e
+      this.getData()
+    },
     blogManage () {
       this.$router.push('/blog/management')
     },

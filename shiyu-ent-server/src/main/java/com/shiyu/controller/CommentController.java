@@ -23,6 +23,15 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @GetMapping("/reply/{commentId}")
+    public ResponseEntity<?> getCommentReply(@PathVariable("commentId") Long commentId,
+                                               @RequestParam Integer pageNum,
+                                               @RequestParam Integer pageSize,
+                                               HttpServletRequest request) throws Throwable {
+        PageInfo<CommentDto> results = commentService.searchCommentReply(commentId, new Page(pageNum, pageSize));
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
     @GetMapping("/article/{articleId}")
     public ResponseEntity<?> getCommentArticle(@PathVariable("articleId") Long articleId,
                                             @RequestParam Integer pageNum,
