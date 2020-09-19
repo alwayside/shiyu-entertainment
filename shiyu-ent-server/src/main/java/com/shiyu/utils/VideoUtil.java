@@ -1,9 +1,9 @@
 package com.shiyu.utils;
 
 import com.shiyu.entity.repository.Video;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.Frame;
-import org.bytedeco.javacv.Java2DFrameConverter;
+//import org.bytedeco.javacv.FFmpegFrameGrabber;
+//import org.bytedeco.javacv.Frame;
+//import org.bytedeco.javacv.Java2DFrameConverter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
@@ -85,24 +85,24 @@ public abstract class VideoUtil {
      */
     public static Video getVideoParams(File file) {
 //        BufferedReader videoSource = new BufferedReader(new FileReader(file));
-        FFmpegFrameGrabber grabber;
         Video params = new Video();
-        try {
-            grabber = FFmpegFrameGrabber.createDefault(file);
-            grabber.start();
-            params.setDuration(grabber.getLengthInTime());
-            params.setHeight(grabber.getImageHeight());
-            params.setWidth(grabber.getImageWidth());
-            params.setVideoType(grabber.getVideoCodec());
-            grabber.getLengthInTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        params.setSize(file.length());
-        params.setFileName(file.getName());
-        String typeName = file.getName().substring(file.getName().lastIndexOf(".")+1);
-        params.setFileType(typeName);
-        params.setPath(file.getAbsolutePath());
+//        FFmpegFrameGrabber grabber;
+//        try {
+//            grabber = FFmpegFrameGrabber.createDefault(file);
+//            grabber.start();
+//            params.setDuration(grabber.getLengthInTime());
+//            params.setHeight(grabber.getImageHeight());
+//            params.setWidth(grabber.getImageWidth());
+//            params.setVideoType(grabber.getVideoCodec());
+//            grabber.getLengthInTime();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        params.setSize(file.length());
+//        params.setFileName(file.getName());
+//        String typeName = file.getName().substring(file.getName().lastIndexOf(".")+1);
+//        params.setFileType(typeName);
+//        params.setPath(file.getAbsolutePath());
         return params;
     }
 
@@ -124,32 +124,32 @@ public abstract class VideoUtil {
      * @return
      */
     public static BufferedImage getScreenshot(String filePath) {
-        FFmpegFrameGrabber grabber;
-        try {
-            grabber = FFmpegFrameGrabber.createDefault(filePath);
-            grabber.start();
-            // 视频总帧数
-            int videoLength = grabber.getLengthInFrames();
-            Frame frame = null;
-            int i = 0;
-            while (i < videoLength) {
-                // 过滤前5帧,避免出现全黑的图片,依自己情况而定(每循环一次取一帧)
-                frame = grabber.grabFrame();
-                if ((i > GET_FRAMES_LENGTH) && (frame.image != null)) {
-                    break;
-                }
-                i++;
-            }
-            // 视频旋转度
-//            String rotate = grabber.getVideoMetadata("rotate");
-            Java2DFrameConverter converter = new Java2DFrameConverter();
-            // 绘制图片
-            BufferedImage bi = converter.getBufferedImage(frame);
-            grabber.stop();
-            return bi;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        FFmpegFrameGrabber grabber;
+//        try {
+//            grabber = FFmpegFrameGrabber.createDefault(filePath);
+//            grabber.start();
+//            // 视频总帧数
+//            int videoLength = grabber.getLengthInFrames();
+//            Frame frame = null;
+//            int i = 0;
+//            while (i < videoLength) {
+//                // 过滤前5帧,避免出现全黑的图片,依自己情况而定(每循环一次取一帧)
+//                frame = grabber.grabFrame();
+//                if ((i > GET_FRAMES_LENGTH) && (frame.image != null)) {
+//                    break;
+//                }
+//                i++;
+//            }
+//            // 视频旋转度
+////            String rotate = grabber.getVideoMetadata("rotate");
+//            Java2DFrameConverter converter = new Java2DFrameConverter();
+//            // 绘制图片
+//            BufferedImage bi = converter.getBufferedImage(frame);
+//            grabber.stop();
+//            return bi;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         return null;
     }
