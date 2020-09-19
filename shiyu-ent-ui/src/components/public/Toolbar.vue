@@ -40,7 +40,7 @@
         <v-btn text class="mr-5 title" color="#fff" to="/home">Home</v-btn>
         <v-btn text class="mr-5 title" color="#fff" to="/blog">Blog</v-btn>
         <v-btn text class="mr-5 title" color="#fff" to="/album">Gallery</v-btn>
-        <v-btn text class="mr-5 title" color="#fff">HighLight</v-btn>
+        <!-- <v-btn text class="mr-5 title" color="#fff">HighLight</v-btn> -->
         </div></v-toolbar-title>
     <v-layout row wrap>
        <div v-if="logged" class="d-flex align-center">

@@ -57,7 +57,7 @@ public class AdminService {
 
     public void register(AdminDo adminDo) throws Throwable {
         String account = adminDo.getAccount();
-        String username = adminDo.getUserName();
+        String username = adminDo.getAccount();
         String password = adminDo.getPassWord();
         try {
             MessageDigest md = MessageDigest.getInstance("md5");
