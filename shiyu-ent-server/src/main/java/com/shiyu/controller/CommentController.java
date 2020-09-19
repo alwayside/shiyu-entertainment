@@ -25,18 +25,18 @@ public class CommentController {
 
     @GetMapping("/reply/{commentId}")
     public ResponseEntity<?> getCommentReply(@PathVariable("commentId") Long commentId,
-                                               @RequestParam Integer pageNum,
-                                               @RequestParam Integer pageSize,
-                                               HttpServletRequest request) throws Throwable {
+                                             @RequestParam Integer pageNum,
+                                             @RequestParam Integer pageSize,
+                                             HttpServletRequest request) throws Throwable {
         PageInfo<CommentDto> results = commentService.searchCommentReply(commentId, new Page(pageNum, pageSize));
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
     @GetMapping("/article/{articleId}")
     public ResponseEntity<?> getCommentArticle(@PathVariable("articleId") Long articleId,
-                                            @RequestParam Integer pageNum,
-                                            @RequestParam Integer pageSize,
-                                            HttpServletRequest request) throws Throwable {
+                                               @RequestParam Integer pageNum,
+                                               @RequestParam Integer pageSize,
+                                               HttpServletRequest request) throws Throwable {
         PageInfo<CommentDto> results = commentService.searchArticleComment(articleId, new Page(pageNum, pageSize));
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
@@ -57,5 +57,21 @@ public class CommentController {
         commentDo.setUserId(userId);
         commentService.saveArticleComment(articleId, commentDo);
         return new ResponseEntity<>(commentDo, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/article/{commentId}")
+    public ResponseEntity<?> deleteCommentArticle(@PathVariable("commentId") Long commentId,
+                                                  HttpServletRequest request) throws Throwable {
+        try {
+            authorityCenter.check(request);
+        } catch (Throwable e) {
+            return new ResponseEntity<>(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
+        }
+        Long userId = authorityCenter.getUserId(request);
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        commentService.deleteArticleComment(userId, commentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

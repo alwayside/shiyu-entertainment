@@ -44,4 +44,17 @@ public class CommentServiceImpl implements CommentService {
         PageInfo<CommentDto> pageInfo = new PageInfo<>(result);
         return pageInfo;
     }
+
+    @Override
+    @Transactional
+    public void deleteArticleComment(Long userId, Long commentId) {
+        CommentDto commentDto = commentMapper.selectById(commentId);
+        if (commentDto == null) {
+            return;
+        }
+        if (userId.equals(commentDto.getUserId())){
+            commentMapper.deleteCommentReplys(commentId);
+            commentMapper.deleteCommentById(commentId);
+        }
+    }
 }

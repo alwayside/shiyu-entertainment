@@ -15,7 +15,9 @@
     </select>
 
     <select id="selectById" resultType="com.shiyu.entity.model.ArticleDto">
-        SELECT * FROM article sa
+        SELECT *,
+            (select count(1) from comment com where com.source_id = sa.id And com.source_type = 'A') as comments
+        FROM article sa
         LEFT JOIN admin ad ON ad.id = sa.user_id
         WHERE sa.id = #{id}
     </select>

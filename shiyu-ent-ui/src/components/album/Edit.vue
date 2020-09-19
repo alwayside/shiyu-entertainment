@@ -133,6 +133,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -179,6 +183,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -200,6 +208,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -219,6 +231,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },

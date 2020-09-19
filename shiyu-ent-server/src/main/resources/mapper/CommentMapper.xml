@@ -11,6 +11,7 @@
         WHERE com.source_id = #{sourceId}
         AND com.source_type = #{sourceType}
         AND reply is NULL
+        order by com.id asc
     </select>
 
     <insert id="saveComment">
@@ -21,6 +22,20 @@
         SELECT * from comment com
         left join admin ad on ad.id = com.user_id
         WHERE reply = #{commentId}
+        order by com.id asc
     </select>
+
+    <select id="selectById" resultType="com.shiyu.entity.model.CommentDto">
+        SELECT * from comment com
+        WHERE id = #{commentId}
+    </select>
+
+    <delete id="deleteCommentById">
+        delete from comment com where com.id = #{commentId}
+    </delete>
+
+    <delete id="deleteCommentReplys">
+        delete from comment com where com.reply = #{commentId}
+    </delete>
 
 </mapper>

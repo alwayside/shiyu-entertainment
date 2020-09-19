@@ -11,4 +11,6 @@ public interface CommentService {
     void saveArticleComment(Long articleId, CommentDo commentDo);
 
     PageInfo<CommentDto> searchCommentReply(Long commentId, Page page);
+
+    void deleteArticleComment(Long userId, Long commentId);
 }

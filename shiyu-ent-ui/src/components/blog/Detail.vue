@@ -23,7 +23,7 @@
       <v-col>
         <v-card class="mx-auto" width="100%">
           <v-card-title class="d-flex justify-start">
-            <span style="fontSize:44px" class="ma-4">评 论</span>
+            <span style="fontSize:44px" class="ma-4">评 论 </span><span><p style="color:grey;fontSize:20px">{{data.comments}}</p></span>
           </v-card-title>
           <v-card-text v-if="commentData.length > 0">
             <v-sheet
@@ -38,11 +38,15 @@
                 <div style="fontSize:24px;color:blue;white-space:nowrap" class="pa-2 d-flex justify-start"><span>{{item.userName}} :</span></div>
                 <div style="fontSize:24px;word-break: break-all;text-align: left;" class="pa-2 d-flex justify-start">{{item.content}}</div>
               </div>
-              <div style="fontSize:18px" class="d-flex justify-start pl-3 pb-3 pr-3 align-center">
+              <div style="fontSize:18px" class="d-flex justify-space-between pl-3 pb-3 pr-3 align-center">
                 <div>发表时间: {{new Date(Date.parse(item.dateTime)).toLocaleString()}}</div>
                 <div style="width:10%"></div>
                 <v-btn tile @click.native="responseExpand(item)" color="success" >查看回复 : {{item.comments}}</v-btn>
                 <div style="width:10%"></div>
+                <div>
+                  <div v-if="!logged" style="width:  120px" />
+                  <v-btn width="120px" tile color="error" @click.native="deleteComment(item, null)" v-if="logged && (user === item.userId)" >删除</v-btn>
+                  </div>
               </div>
               <div style="fontSize:18px" v-if="item.expand" class="d-flex justify-start pl-3 pb-3 pr-3 align-center">
                 <v-row>
@@ -60,8 +64,10 @@
                       <div style="fontSize:24px;color:blue;white-space:nowrap" class="pa-2 d-flex justify-start"><span>{{comment.userName}} :</span></div>
                       <div style="fontSize:24px;word-break: break-all;text-align: left;" class="pa-2 d-flex justify-start">{{comment.content}}</div>
                     </div>
-                    <div style="fontSize:18px" class="d-flex justify-start pl-3 pb-3 pr-3 align-center">
+                    <div style="fontSize:18px" class="d-flex justify-space-between pl-3 pb-3 pr-3 align-center">
                       <div>发表时间: {{new Date(Date.parse(comment.dateTime)).toLocaleString()}}</div>
+                      <div><div v-if="!logged" style="width:60px" /><v-btn v-if="logged" width="60px" @click.native="setRepley(item, comment)">回 复</v-btn></div>
+                      <v-btn tile color="error" @click.native="deleteComment(comment, item)" v-if="logged && user === comment.userId" >删除</v-btn>
                     </div>
                     </v-sheet>
 
@@ -72,8 +78,8 @@
                       :length=item.pagelength
                       class="ma-2"
                     ></v-pagination>
-
                     <v-text-field
+                      v-if="logged"
                       v-model="item.newComment"
                       prepend-icon="mdi-message"
                       placeholder="在这回复..."
@@ -123,6 +129,7 @@
 export default {
   name: 'HomePage',
   data: () => ({
+    user: -1,
     listPage: [],
     replyId: null,
     commentPage: 1,
@@ -169,6 +176,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -209,6 +220,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -220,9 +235,7 @@ export default {
       let commentDo = {
         content: this.newComment
       }
-      if (item.id) {
-        commentDo.reply = item.id
-      }
+      console.log(item)
       this.$axios
         .post(url, commentDo)
         .then((res) => {
@@ -235,6 +248,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -255,6 +272,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -276,6 +297,10 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     },
@@ -301,10 +326,42 @@ export default {
           if (err) {
             this.error = err.response.data ? err.response.data : 'error'
             this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
+          }
+        })
+    },
+    setRepley (item, comment) {
+      item.newComment = '回复' + comment.userName + ': '
+      this.commentData.splice(0, 0)
+    },
+    deleteComment (comment, item) {
+      let url = '/comment/article/' + comment.id
+      this.$axios
+        .delete(url)
+        .then((res) => {
+          if (res.status === 200) {
+            if (item === null) {
+              this.getCommentData()
+            } else {
+              this.getCommentsReply(item)
+            }
+            this.commentData.splice(0, 0)
+          }
+        })
+        .catch((err) => {
+          if (err) {
+            this.error = err.response.data ? err.response.data : 'error'
+            this.errorAlter = true
+            if (err.response.status === 511) {
+              this.$store.dispatch('logout', null)
+              this.$router.push('/login')
+            }
           }
         })
     }
-
   },
   computed: {
     area () {
@@ -318,7 +375,7 @@ export default {
         this.logged = false
       } else {
         this.logged = true
-        this.user = window.localStorage.getItem('User')
+        this.user = parseInt(window.localStorage.getItem('Userid'), 10)
       }
     }
   },
@@ -332,7 +389,7 @@ export default {
       this.logged = false
     } else {
       this.logged = true
-      this.user = window.localStorage.getItem('User')
+      this.user = parseInt(window.localStorage.getItem('Userid'), 10)
     }
     this.getCommentData()
   }

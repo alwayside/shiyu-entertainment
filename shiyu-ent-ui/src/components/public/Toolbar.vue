@@ -95,6 +95,7 @@ export default {
     },
     logout () {
       this.$store.dispatch('logout', null)
+      this.$router.push('/home')
     },
     change: function (index) {
       this.selectedLang = this.lang[index]
