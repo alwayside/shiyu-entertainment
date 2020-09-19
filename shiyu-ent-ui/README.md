@@ -1,4 +1,4 @@
-# HBC'S MIS
+# shiyu
 
 > A Vue.js project
 
