@@ -7,7 +7,8 @@
   	</insert>
 
     <select id="selectByTitle" resultType="com.shiyu.entity.model.ArticleDto">
-        SELECT * FROM article sa
+        SELECT sa.*,ad.username
+        FROM article sa
         LEFT JOIN admin ad ON ad.id = sa.user_id
         <if test="title != null and title != ''">
             WHERE sa.title LIKE "%"#{title}"%"
